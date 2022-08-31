@@ -9,26 +9,39 @@ type KeyVal struct {
 
 func main() {
 
-	hashTable(KeyVal{
+	kv := KeyVal{
 		Key: "1232",
-		Val: 1000,
-	}, 50)
+		Val: "apple",
+	}
+	limit := 50
+
+	st := hashTable(kv, limit)
+
+	hs := setHashTable(st, kv.Val, limit)
+
+	gh := getHashTable(st, hs)
+	log.Println(gh, hs)
 
 }
 
-func hashTable(kv KeyVal, limit int) {
+func hashTable(kv KeyVal, limit int) int {
 
 	var hash int
 	for i := 0; i < len(kv.Key)-1; i++ {
 		hash = (hash + int([]byte(kv.Key)[i])) * i % limit
 	}
 
-	log.Println(hash)
+	return hash
 
 }
 
 func setHashTable(key int, value interface{}, limit int) []interface{} {
 	newArrays := make([]interface{}, limit)
 	newArrays[key] = value
+
 	return newArrays
+}
+
+func getHashTable(key int, list []interface{}) interface{} {
+	return list[key]
 }
